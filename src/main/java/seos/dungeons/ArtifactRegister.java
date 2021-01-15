@@ -22,10 +22,14 @@ public class ArtifactRegister implements Listener {
         AnvilInventory inv = e.getInventory();
 
         if (hasResult(e)) {
-            if (isArtifact(inv) && isAlone(inv)) {
-                Bukkit.broadcastMessage("Hi I'm an artifact!");
-                //an item is being converted to artifact
-                changeToArtifact(e);
+//            Bukkit.broadcastMessage("I have a result");
+            if (isAlone(inv)) {
+//                Bukkit.broadcastMessage("I'm alone");
+                if (isArtifact(inv)) {
+//                    Bukkit.broadcastMessage("Hi I'm an artifact!");
+                    //an item is being converted to artifact
+                    changeToArtifact(e);
+                }
             }
         }
     }
@@ -36,30 +40,38 @@ public class ArtifactRegister implements Listener {
     }
 
     public boolean hasResult(PrepareAnvilEvent e) {
-        return e.getResult() != null;
+        return !e.getResult().getType().isAir();
     }
 
 
     //test to see if the item is already an artifact
     public boolean isArtifact(AnvilInventory inventory) {
         //Bukkit.broadcastMessage(inventory.getRenameText());
-
-        return (inventory.getRenameText().equalsIgnoreCase("broadsword"));
+        String name = inventory.getRenameText();
+        if (Base.getBase(name) == null) {
+            return false;
+        }
+        return true;
     }
 
     public void changeToArtifact(PrepareAnvilEvent e) {
         ItemStack item = e.getResult().clone();
-
-        if (!item.getType().isAir()) {
-            ItemMeta meta = item.getItemMeta();
-            List<String> newlore = new ArrayList<>();
-            newlore.add("Hi");
-            meta.setLore(newlore);
-            meta.setUnbreakable(true);
-            meta.setDisplayName(ChatColor.GOLD + e.getInventory().getRenameText());
-            item.setItemMeta(meta);
-            e.setResult(item);
+        if (!item.getType().isAir()){
+            String artifactName = e.getInventory().getRenameText();
+            Artifact ourArtifact = new Artifact(artifactName, Base.getBase(artifactName), false);
+            e.setResult(ourArtifact.toItem());
         }
+//        ItemStack item = e.getResult().clone();
+//        if (!item.getType().isAir()) {
+//            ItemMeta meta = item.getItemMeta();
+//            List<String> newlore = new ArrayList<>();
+//            newlore.add("Hi");
+//            meta.setLore(newlore);
+//            meta.setUnbreakable(true);
+//            meta.setDisplayName(ChatColor.GOLD + e.getInventory().getRenameText());
+//            item.setItemMeta(meta);
+//            e.setResult(item);
+//        }
     }
 
     //test to see if the item is damaged or not

@@ -1,13 +1,15 @@
 package seos.dungeons;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Artifact {
 
-    private String name;
-    private Base base;
+    private static String name;
+    private static Base base;
     private boolean unique;
 
     //Artifact Class
@@ -29,63 +31,16 @@ public class Artifact {
         return unique;
     }
 
-    public Material toMaterial(){
-        String materialName = "";
-        switch(base) {
-            case AXE:
-                break;
-            case BATTLESTAFF:
-                break;
-            case CLAYMORE:
-                break;
-            case CUTLASS:
-                break;
-            case DAGGERS:
-                break;
-            case GLAIVE:
-                break;
-            case GREAT_HAMMER:
-                break;
-            case HAMMER:
-                break;
-            case MACE:
-                break;
-            case PICKAXE:
-                break;
-            case SICKLES:
-                break;
-            case SOUL_KNIFE:
-                break;
-            case SWORD:
-                break;
-            case TEMPEST_KNIFE:
-                break;
-            case WHIP:
-                break;
-            case GAUNTLETS:
-                break;
-            case SCYTHE:
-                break;
-            case DOUBLE_AXE:
-                break;
-            case KATANA:
-                break;
-            case SPEAR:
-                break;
-            case RAPIER:
-                break;
-        }
-        return Material.getMaterial(materialName);
-    }
-
-    public ItemStack toItem(){
-        ItemStack artifactItem = new ItemStack(Material.IRON_AXE);
+    //Create new item from base material.
+    public static ItemStack toItem(){
+//        Bukkit.broadcastMessage(base.toString());
+//        Bukkit.broadcastMessage("base material :" + base.getMaterial().toString());
+        ItemStack artifactItem = new ItemStack(base.getMaterial());
         ItemMeta itemMeta = artifactItem.getItemMeta();
-        itemMeta.setDisplayName(name);
-
-
+        itemMeta.setDisplayName(ChatColor.GOLD + name);
         itemMeta.setUnbreakable(true);
-
+        artifactItem.setItemMeta(itemMeta);
+//        Bukkit.broadcastMessage(artifactItem.toString());
         return artifactItem;
     }
 
