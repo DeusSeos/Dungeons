@@ -1,0 +1,5 @@
+name: Dungeons
+version: ${project.version}
+main: seos.dungeons.Dungeons
+api-version: 1.16
+authors: [ seos ]
